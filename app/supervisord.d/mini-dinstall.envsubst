@@ -1,0 +1,7 @@
+[program:mini-dinstall]
+priority=50
+user=${USER}
+directory=/app/repo
+command=/app/signal-wrapper.sh 'mini-dinstall --config ${CONFIG}' 'mini-dinstall -k' 'test -e "${PIDFILE}" && kill -0 $(cat "${PIDFILE}")'
+redirect_stderr=true
+autorestart=true

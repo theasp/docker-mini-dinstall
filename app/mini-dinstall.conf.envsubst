@@ -1,0 +1,18 @@
+[DEFAULT]
+architectures = ${ARCHITECTURES}
+archivedir = ${REPO_DIR}
+use_dnotify = 1
+verify_sigs = ${VERIFY_SIGS}
+extra_keyrings = ${EXTRA_KEYRING}
+archive_style = ${ARCHIVE_STYLE}
+poll_time = 40
+mail_log_level = ERROR
+mail_to = "${EMAIL}"
+mail_on_success = 1
+generate_release = 1
+release_description = "${REPO_NAME}"
+release_signscript = /app/sign-release.sh
+keep_old = ${KEEP_OLD}
+chown_changes_files = 0
+incoming_permissions = 2770
+logfile = ${LOGFILE}
