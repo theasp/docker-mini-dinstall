@@ -12,16 +12,16 @@ else
 
   if [[ "$REPO_SECTIONS" ]]; then
     for name in $REPO_SECTIONS; do
-      echo "[$name]"
       echo
+      echo "[$name]"
     done >> ${CONFIG}
   else
     for name in /app/repo/*; do
       name=$(basename $name)
       
       if [[ -d "$name" ]] && [[ "$name" != mini-dinstall ]]; then
-        echo "[$name]"
         echo 
+        echo "[$name]"
       fi
     done >> ${CONFIG}
   fi

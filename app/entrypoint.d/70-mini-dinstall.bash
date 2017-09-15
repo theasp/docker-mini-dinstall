@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CONFIG="${CONFIG:-/app/mini-dinstall.conf}"
-export ARCHITECTURES="${ARCHITECTURES:-all,i386,amd64}"
+export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
 export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
 export ARCHIVE_STYLE="${ARCHIVE_STYLE:-flat}"
 export EMAIL="${EMAIL:-nobody}"
