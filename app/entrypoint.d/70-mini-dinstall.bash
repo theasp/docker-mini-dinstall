@@ -14,7 +14,7 @@ export LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
 mkdir -p /app/etc
 mkdir -p /app/repo
 
-chown $USER_UID:$USER_GID /app/log || true
+chown $USER_UID:$USER_GID /app/repo || true
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=1;;
