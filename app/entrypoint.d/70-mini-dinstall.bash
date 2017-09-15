@@ -15,11 +15,6 @@ log info "Generating configuration: $CONFIG"
 
 mkdir -p /app/etc
 mkdir -p /app/repo
-mkdir -p /app/repo/mini-dinstall
-mkdir -p /app/repo/mini-dinstall/incoming
-mkdir -p /app/log
-chown -R $USER_UID:$USER_GID /app/repo /app/log
-chmod 0775 /app/repo/mini-dinstall/incoming
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=1;;
@@ -32,13 +27,6 @@ case ${KEEP_OLD:-true} in
 esac
 
 export VERIFY_SIGS KEEP_OLD
-
-envsubst < /app/mini-dinstall.conf.envsubst > /app/mini-dinstall.conf
-
-for name in $REPO_SECTIONS; do
-  echo "[$name]"
-  echo
-done >> /app/etc/mini-dinstall.conf
 
 envsubst < /app/supervisord.d/mini-dinstall.envsubst > /app/supervisord.d/mini-dinstall.conf
 
