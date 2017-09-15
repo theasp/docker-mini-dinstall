@@ -11,8 +11,6 @@ export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export LOGFILE=/app/log/mini-dinstall.log
 
-log info "Generating configuration: $CONFIG"
-
 mkdir -p /app/etc
 mkdir -p /app/repo
 
@@ -51,4 +49,4 @@ if [ ! -f /app/repo/repository-key.asc ]; then
   sudo -u $USER_NAME -H bash -c 'gpg --export -a > /app/repo/repository-key.asc'
 fi
 
-rm -f $PIDFILE
+sudo -u $USER_NAME rm -f $PIDFILE
