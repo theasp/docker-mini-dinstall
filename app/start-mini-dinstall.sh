@@ -2,7 +2,6 @@
 
 mkdir -p /app/repo/mini-dinstall
 mkdir -p /app/repo/mini-dinstall/incoming
-chmod 0775 /app/repo/mini-dinstall/incoming
 
 CONFIG=/tmp/mini-dinstall.conf
 
