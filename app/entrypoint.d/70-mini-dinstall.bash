@@ -7,7 +7,7 @@ export EMAIL="${EMAIL:-nobody}"
 export GPG_KEY="${REPO_KEY:-/app/etc/key.gpg}"
 export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
-export PIDFILE=/tmp/mini-dinstall.lock
+export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
 
 mkdir -p /app/etc
