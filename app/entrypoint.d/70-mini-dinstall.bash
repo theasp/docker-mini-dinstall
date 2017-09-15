@@ -16,6 +16,8 @@ log info "Generating configuration: $CONFIG"
 mkdir -p /app/etc
 mkdir -p /app/repo
 
+chown $USER_UID:$USER_GID /app/log || true
+
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=1;;
   *) VERIFY_SIGS=0;;
