@@ -4,16 +4,18 @@ mkdir -p /app/repo/mini-dinstall
 mkdir -p /app/repo/mini-dinstall/incoming
 chmod 0775 /app/repo/mini-dinstall/incoming
 
+CONFIG=/tmp/mini-dinstall.conf
+
 if [[ -e /app/etc/mini-dinstall.conf ]]; then
-  cp /app/etc/mini-dinstall.conf /app/mini-dinstall.conf
+  cp /app/etc/mini-dinstall.conf ${CONFIG}
 else
-  envsubst < /app/mini-dinstall.conf.envsubst > /app/mini-dinstall.conf
+  envsubst < /app/mini-dinstall.conf.envsubst > ${CONFIG}
 
   if [[ "$REPO_SECTIONS" ]]; then
     for name in $REPO_SECTIONS; do
       echo "[$name]"
       echo
-    done >> /app/mini-dinstall.conf
+    done >> ${CONFIG}
   else
     for name in /app/repo/*; do
       name=$(basename $name)
@@ -22,7 +24,7 @@ else
         echo "[$name]"
         echo 
       fi
-    done >> /app/mini-dinstall.conf
+    done >> ${CONFIG}
   fi
 fi
 
