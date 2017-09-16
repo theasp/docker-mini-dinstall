@@ -2,7 +2,7 @@
 
 # Sign the release file in the current directory.
 
-set -ex
+set -e
 
 rm -f Release.gpg.tmp
 gpg --no-tty --batch --detach-sign -o Release.gpg.tmp "$1"
