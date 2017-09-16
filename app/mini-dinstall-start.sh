@@ -4,6 +4,9 @@ mkdir -p /app/repo/mini-dinstall
 mkdir -p /app/repo/mini-dinstall/incoming
 
 CONFIG=/tmp/mini-dinstall.conf
+PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
+
+rm -f $PIDFILE
 
 if [[ -e /app/etc/mini-dinstall.conf ]]; then
   cp /app/etc/mini-dinstall.conf ${CONFIG}
