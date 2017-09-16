@@ -2,6 +2,6 @@
 priority=50
 user=${USER}
 directory=/app/repo
-command=/app/start-mini-dinstall.sh
+command=/app/mini-dinstall.sh
 redirect_stderr=true
 autorestart=true

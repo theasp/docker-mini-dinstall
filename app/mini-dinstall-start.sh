@@ -3,7 +3,7 @@
 mkdir -p /app/repo/mini-dinstall
 mkdir -p /app/repo/mini-dinstall/incoming
 
-export CONFIG=/tmp/mini-dinstall.conf
+CONFIG=/tmp/mini-dinstall.conf
 
 if [[ -e /app/etc/mini-dinstall.conf ]]; then
   cp /app/etc/mini-dinstall.conf ${CONFIG}
@@ -18,17 +18,13 @@ else
   else
     for name in /app/repo/*; do
       name=$(basename $name)
-      
+
       if [[ -d "$name" ]] && [[ "$name" != mini-dinstall ]]; then
-        echo 
+        echo
         echo "[$name]"
       fi
     done >> ${CONFIG}
   fi
 fi
 
-START='mini-dinstall --config ${CONFIG}'
-STOP='mini-dinstall -k'
-CHECK='test -e "${PIDFILE}" && kill -0 $(cat "${PIDFILE}")'
-
-exec /app/signal-wrapper.sh "$START" "$STOP" "$CHECK"
+exec mini-dinstall --config ${CONFIG}
