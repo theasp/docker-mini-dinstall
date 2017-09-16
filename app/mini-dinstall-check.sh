@@ -1,3 +1,3 @@
 #!/bin/bash
 
-exec pidof mini-dinstall > /dev/null
+exec pidof -x mini-dinstall > /dev/null
