@@ -39,7 +39,7 @@ else
   log info "Generating GPG key ${GPG_KEY} that expires ${expiry}"
   (
     umask 0077;
-    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME";
+    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME" default default "${expiry}";
     sudo -u "${USER_NAME}" -H gpg2 --batch --yes --export-secret-key > "${GPG_KEY}"
   )
 fi
