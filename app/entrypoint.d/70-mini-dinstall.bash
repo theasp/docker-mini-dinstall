@@ -5,6 +5,7 @@ export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
 export ARCHIVE_STYLE="${ARCHIVE_STYLE:-flat}"
 export EMAIL="${EMAIL:-nobody}"
 export GPG_KEY="${REPO_KEY:-/app/etc/key.gpg}"
+export GPG_KEY_AGE=${REPO_KEY_AGE:-3650}
 export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
@@ -33,10 +34,14 @@ if [[ -e "$GPG_KEY" ]]; then
   log info "Importing GPG key $GPG_KEY"
   sudo -u $USER_NAME -H gpg2 --batch --import < $GPG_KEY
 else
-  log info "Generating GPG key $GPG_KEY"
-  (umask 0077;   
-   sudo -u $USER_NAME -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME";
-   sudo -u $USER_NAME -H gpg2 --batch --yes --export-secret-key > $GPG_KEY)
+  expiry=$(date +%F --date="+${GPG_KEY_AGE} days")
+
+  log info "Generating GPG key ${GPG_KEY} that expires ${expiry}"
+  (
+    umask 0077;
+    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME";
+    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --export-secret-key > "${GPG_KEY}"
+  )
 fi
 
 # Make sure the GPG key is unreadable by anyone else
@@ -49,4 +54,3 @@ if [ ! -f /app/repo/repository-key.asc ]; then
 fi
 
 sudo -u $USER_NAME rm -f $PIDFILE
-
