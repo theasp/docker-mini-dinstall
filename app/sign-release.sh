@@ -5,5 +5,5 @@
 set -e
 
 rm -f Release.gpg.tmp
-gpg --no-tty --batch --detach-sign -o Release.gpg.tmp "$1"
+gpg --no-tty --batch --detach-sign --armor -o Release.gpg.tmp "$1"
 mv Release.gpg.tmp Release.gpg
