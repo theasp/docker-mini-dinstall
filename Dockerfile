@@ -1,4 +1,4 @@
-FROM theasp/userlayer:debian-stretch
+FROM theasp/userlayer:debian-buster
 ENV ENABLE_SUDO=false ENABLE_SSH_AGENT=false HTTP_PORT=80
 RUN set -ex; \
   apt-get update; \
