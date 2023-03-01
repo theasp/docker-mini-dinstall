@@ -10,6 +10,7 @@ export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
+export MINI_DINSTALL_CONFIG=/tmp/mini-dinstall.conf
 
 for dir in /app/etc /app/repo /app/repo/mini-dinstall /app/repo/mini-dinstall/incoming; do
   mkdir -p "${dir}"
@@ -55,3 +56,28 @@ if [ ! -f /app/repo/repository-key.asc ]; then
 fi
 
 sudo -u "${USER_NAME}" rm -f "${PIDFILE}"
+
+# If a config is provided use it
+if [[ -e /app/etc/mini-dinstall.conf ]]; then
+  cp /app/etc/mini-dinstall.conf "${CONFIG}"
+else
+  envsubst < /app/mini-dinstall.conf.envsubst > "${CONFIG}"
+
+  # If REPO_SECTIONS is set, use the repos from there, otherwise use
+  # the existing repo directories.
+  if [[ $REPO_SECTIONS ]]; then
+    for name in $REPO_SECTIONS; do
+      echo
+      echo "[${name}]"
+    done >> "${CONFIG}"
+  else
+    for name in /app/repo/*; do
+      name=$(basename "${name}")
+
+      if [[ -d $name ]] && [[ $name != mini-dinstall ]]; then
+        echo
+        echo "[${name}]"
+      fi
+    done >> "${CONFIG}"
+  fi
+fi
