@@ -19,21 +19,21 @@ done
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=1;;
-  *) VERIFY_SIGS=0;;
+  *)        VERIFY_SIGS=0;;
 esac
 
 case ${KEEP_OLD:-true} in
   true|yes) KEEP_OLD=1;;
-  *) KEEP_OLD=0;;
+  *)        KEEP_OLD=0;;
 esac
 
 export VERIFY_SIGS KEEP_OLD
 
 envsubst < /app/supervisord.d/mini-dinstall.envsubst > /app/supervisord.d/mini-dinstall.conf
 
-if [[ -e "$GPG_KEY" ]]; then
-  log info "Importing GPG key $GPG_KEY"
-  sudo -u $USER_NAME -H gpg2 --batch --import < $GPG_KEY
+if [[ -e $GPG_KEY ]]; then
+  log info "Importing GPG key ${GPG_KEY}"
+  sudo -u "${USER_NAME}" -H gpg2 --batch --import < "${GPG_KEY}"
 else
   expiry=$(date +%F --date="+${GPG_KEY_AGE} days")
 
@@ -46,12 +46,12 @@ else
 fi
 
 # Make sure the GPG key is unreadable by anyone else
-chmod 0600 $GPG_KEY
+chmod 0600 "${GPG_KEY}"
 
 # Export a copy of the key to key.asc
 if [ ! -f /app/repo/repository-key.asc ]; then
   log info "Exporting GPG public key"
-  sudo -u $USER_NAME -H bash -c 'gpg --export -a > /app/repo/repository-key.asc'
+  sudo -u "${USER_NAME}" -H bash -c 'gpg --export -a > /app/repo/repository-key.asc'
 fi
 
-sudo -u $USER_NAME rm -f $PIDFILE
+sudo -u "${USER_NAME}" rm -f "${PIDFILE}"
