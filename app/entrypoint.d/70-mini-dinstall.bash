@@ -59,9 +59,9 @@ sudo -u "${USER_NAME}" rm -f "${PIDFILE}"
 
 # If a config is provided use it
 if [[ -e /app/etc/mini-dinstall.conf ]]; then
-  cp /app/etc/mini-dinstall.conf "${CONFIG}"
+  cp /app/etc/mini-dinstall.conf "${MINI_DINSTALL_CONFIG}"
 else
-  envsubst < /app/mini-dinstall.conf.envsubst > "${CONFIG}"
+  envsubst < /app/mini-dinstall.conf.envsubst > "${MINI_DINSTALL_CONFIG}"
 
   # If REPO_SECTIONS is set, use the repos from there, otherwise use
   # the existing repo directories.
@@ -69,7 +69,7 @@ else
     for name in $REPO_SECTIONS; do
       echo
       echo "[${name}]"
-    done >> "${CONFIG}"
+    done >> "${MINI_DINSTALL_CONFIG}"
   else
     for name in /app/repo/*; do
       name=$(basename "${name}")
@@ -78,6 +78,6 @@ else
         echo
         echo "[${name}]"
       fi
-    done >> "${CONFIG}"
+    done >> "${MINI_DINSTALL_CONFIG}"
   fi
 fi
