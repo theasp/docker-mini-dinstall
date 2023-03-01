@@ -34,7 +34,7 @@ case ${RESTRICT_CHANGES_FILES:-false} in
 esac
 
 
-export VERIFY_SIGS KEEP_OLD
+export VERIFY_SIGS KEEP_OLD RESTRICT_CHANGES_FILES
 
 envsubst < /app/supervisord.d/mini-dinstall.envsubst > /app/supervisord.d/mini-dinstall.conf
 
