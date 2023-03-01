@@ -1,8 +1,5 @@
 #!/bin/bash
 
-mkdir -p /app/repo/mini-dinstall
-mkdir -p /app/repo/mini-dinstall/incoming
-
 CONFIG=/tmp/mini-dinstall.conf
 
 if [[ -e /app/etc/mini-dinstall.conf ]]; then
