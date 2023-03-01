@@ -14,5 +14,6 @@ release_description = "${REPO_NAME}"
 release_signscript = /app/sign-release.sh
 keep_old = ${KEEP_OLD}
 restrict_changes_files = ${RESTRICT_CHANGES_FILES}
-incoming_permissions = 1528 # (octal 2770)
+# This needs to be in decimal for some reason, octal 2770=1528
+incoming_permissions = 1528
 logfile = ${LOGFILE}
