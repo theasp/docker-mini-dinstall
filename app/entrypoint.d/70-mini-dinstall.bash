@@ -11,10 +11,11 @@ export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
 
-mkdir -p /app/etc
-mkdir -p /app/repo
+for dir in /app/etc /app/repo /app/repo/mini-dinstall /app/repo/mini-dinstall/incoming; do
+  mkdir -p "${dir}"
+  chown "${USER_UID}:${USER_GID}" "${dir}" || true
+done
 
-chown $USER_UID:$USER_GID /app/repo || true
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=1;;
