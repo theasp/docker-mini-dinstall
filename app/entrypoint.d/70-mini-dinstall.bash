@@ -19,13 +19,13 @@ done
 
 
 case ${VERIFY_SIGS:-true} in
-  true|yes) VERIFY_SIGS=1;;
-  *)        VERIFY_SIGS=0;;
+  true|yes) VERIFY_SIGS=yes;;
+  *)        VERIFY_SIGS=no;;
 esac
 
 case ${KEEP_OLD:-true} in
-  true|yes) KEEP_OLD=1;;
-  *)        KEEP_OLD=0;;
+  true|yes) KEEP_OLD=yes;;
+  *)        KEEP_OLD=no;;
 esac
 
 export VERIFY_SIGS KEEP_OLD
