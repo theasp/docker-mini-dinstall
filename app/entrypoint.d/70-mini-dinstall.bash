@@ -28,6 +28,12 @@ case ${KEEP_OLD:-true} in
   *)        KEEP_OLD=no;;
 esac
 
+case ${RESTRICT_CHANGES_FILES:-false} in
+  true|yes) RESTRICT_CHANGES_FILES=yes;;
+  *)        RESTRICT_CHANGES_FILES=no;;
+esac
+
+
 export VERIFY_SIGS KEEP_OLD
 
 envsubst < /app/supervisord.d/mini-dinstall.envsubst > /app/supervisord.d/mini-dinstall.conf
