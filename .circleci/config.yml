@@ -1,0 +1,34 @@
+---
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: |
+          docker image build -t theasp/mini-dinstall:latest -f Dockerfile .
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+              docker image ls
+              docker push theasp/mini-dinstall:latest
+            fi
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  weekly:
+    triggers:
+      - schedule:
+          cron: "0 14 * * 2"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
