@@ -17,6 +17,7 @@ export REPO_KEY="${REPO_KEY:-/app/etc/key.gpg}"
 export REPO_KEY_AGE=${REPO_KEY_AGE:-3650}
 export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
+export REPO_SECTIONS=${REPO_SECTIONS:-unstable}
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export MINI_DINSTALL_CONFIG=/tmp/mini-dinstall.conf
 
