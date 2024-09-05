@@ -15,4 +15,4 @@ release_signscript = /app/sign-release.sh
 keep_old = ${KEEP_OLD}
 restrict_changes_files = ${RESTRICT_CHANGES_FILES}
 incoming_permissions = 2770
-logfile = /dev/fd/1
+logfile = /app/repo/mini-dinstall/mini-dinstall.log
