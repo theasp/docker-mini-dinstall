@@ -13,8 +13,8 @@ export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
 export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
 export ARCHIVE_STYLE="${ARCHIVE_STYLE:-flat}"
 export EMAIL="${EMAIL:-nobody}"
-export GPG_KEY="${REPO_KEY:-/app/etc/key.gpg}"
-export GPG_KEY_AGE=${REPO_KEY_AGE:-3650}
+export REPO_KEY="${REPO_KEY:-/app/etc/key.gpg}"
+export REPO_KEY_AGE=${REPO_KEY_AGE:-3650}
 export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
@@ -46,24 +46,24 @@ esac
 
 export VERIFY_SIGS KEEP_OLD RESTRICT_CHANGES_FILES
 
-ls -l "${GPG_KEY}" || true
+ls -l "${REPO_KEY}" || true
 
-if [[ -e $GPG_KEY ]]; then
-  echo "INFO: Importing GPG key ${GPG_KEY}"
-  sudo -u "${USER_NAME}" -H gpg2 --batch --import < "${GPG_KEY}"
+if [[ -e $REPO_KEY ]]; then
+  echo "INFO: Importing GPG key ${REPO_KEY}"
+  sudo -u "${USER_NAME}" -H gpg2 --batch --import < "${REPO_KEY}"
 else
-  expiry=$(date +%F --date="+${GPG_KEY_AGE} days")
+  expiry=$(date +%F --date="+${REPO_KEY_AGE} days")
 
-  echo "INFO: Generating GPG key ${GPG_KEY} that expires ${expiry}"
+  echo "INFO: Generating GPG key ${REPO_KEY} that expires ${expiry}"
   (
     umask 0077;
     sudo -u "${USER_NAME}" -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME" default default "${expiry}";
-    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --export-secret-key > "${GPG_KEY}"
+    sudo -u "${USER_NAME}" -H gpg2 --batch --yes --export-secret-key > "${REPO_KEY}"
   )
 fi
 
 # Make sure the GPG key is unreadable by anyone else
-chmod 0600 "${GPG_KEY}"
+chmod 0600 "${REPO_KEY}"
 
 # Export a copy of the key to key.asc
 if [ ! -f /app/repo/repository-key.asc ]; then
