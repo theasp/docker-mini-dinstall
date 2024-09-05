@@ -85,10 +85,10 @@ else
       echo "[${name}]"
     done >> "${MINI_DINSTALL_CONFIG}"
   else
-    for name in /app/repo/*; do
-      name=$(basename "${name}")
+    for dir in /app/repo/*; do
+      name=$(basename "${dir}")
 
-      if [[ -d $name ]] && [[ $name != mini-dinstall ]]; then
+      if [[ -d $dir ]] && [[ $name != mini-dinstall ]]; then
         echo
         echo "[${name}]"
       fi
