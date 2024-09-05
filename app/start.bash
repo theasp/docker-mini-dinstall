@@ -67,9 +67,6 @@ else
   )
 fi
 
-# Make sure the GPG key is unreadable by anyone else
-chmod 0600 "${REPO_KEY}"
-
 # Export a copy of the key to key.asc
 if [ ! -f /app/repo/repository-key.asc ]; then
   echo "INFO: Exporting GPG public key"
