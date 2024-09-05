@@ -21,6 +21,10 @@ export REPO_SECTIONS=${REPO_SECTIONS:-unstable}
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export MINI_DINSTALL_CONFIG=/tmp/mini-dinstall.conf
 
+if [[ $DEBUG = true ]]; then
+  set -x
+fi
+
 getent group "${USER_NAME}" > /dev/null 2>&1 || addgroup --gid="${USER_GID}" "${USER_NAME}"
 getent passwd "${USER_NAME}" > /dev/null 2>&1 || adduser --disabled-password --home="${USER_HOME}" --shell="${USER_SHELL}" --gecos="${USER_GECOS}" --uid="${USER_UID}" --gid="${USER_GID}" "${USER_NAME}"
 
@@ -50,8 +54,6 @@ esac
 
 
 export VERIFY_SIGS KEEP_OLD RESTRICT_CHANGES_FILES
-
-ls -l "${REPO_KEY}" || true
 
 if [[ -e $REPO_KEY ]]; then
   echo "INFO: Importing GPG key ${REPO_KEY}"
