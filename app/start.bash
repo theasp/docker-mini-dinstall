@@ -46,6 +46,8 @@ esac
 
 export VERIFY_SIGS KEEP_OLD RESTRICT_CHANGES_FILES
 
+ls -l "${GPG_KEY}" || true
+
 if [[ -e $GPG_KEY ]]; then
   echo "INFO: Importing GPG key ${GPG_KEY}"
   sudo -u "${USER_NAME}" -H gpg2 --batch --import < "${GPG_KEY}"
