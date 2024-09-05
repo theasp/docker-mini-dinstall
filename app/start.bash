@@ -1,5 +1,14 @@
 #!/bin/bash
 
+set -e
+
+export USER_NAME="user"
+export USER_UID="1000"
+export USER_GID="1000"
+export USER_HOME="/home/user"
+export USER_SHELL="/bin/bash"
+export USER_GECOS="Unknown User"
+
 export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
 export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
 export ARCHIVE_STYLE="${ARCHIVE_STYLE:-flat}"
@@ -9,14 +18,15 @@ export GPG_KEY_AGE=${REPO_KEY_AGE:-3650}
 export REPO_NAME="${REPO_NAME:-Unknown APT Repository}"
 export REPO_DIR=/app/repo
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
-export LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
 export MINI_DINSTALL_CONFIG=/tmp/mini-dinstall.conf
+
+getent group "${USER_NAME}" > /dev/null 2>&1 || addgroup --gid="${USER_GID}" "${USER_NAME}"
+getent passwd "${USER_NAME}" > /dev/null 2>&1 || adduser --disabled-password --home="${USER_HOME}" --shell="${USER_SHELL}" --gecos="${USER_GECOS}" --uid="${USER_UID}" --gid="${USER_GID}" "${USER_NAME}"
 
 for dir in /app/etc /app/repo /app/repo/mini-dinstall /app/repo/mini-dinstall/incoming; do
   mkdir -p "${dir}"
   chown "${USER_UID}:${USER_GID}" "${dir}" || true
 done
-
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=yes;;
@@ -36,15 +46,13 @@ esac
 
 export VERIFY_SIGS KEEP_OLD RESTRICT_CHANGES_FILES
 
-envsubst < /app/supervisord.d/mini-dinstall.envsubst > /app/supervisord.d/mini-dinstall.conf
-
 if [[ -e $GPG_KEY ]]; then
-  log info "Importing GPG key ${GPG_KEY}"
-  sudo -u "${USER_NAME}" -H gpg2 --batch --import < "${GPG_KEY}"
+  echo "INFO: Importing GPG key ${GPG_KEY}"
+  sudo -u apt -H gpg2 --batch --import < "${GPG_KEY}"
 else
   expiry=$(date +%F --date="+${GPG_KEY_AGE} days")
 
-  log info "Generating GPG key ${GPG_KEY} that expires ${expiry}"
+  echo "INFO: Generating GPG key ${GPG_KEY} that expires ${expiry}"
   (
     umask 0077;
     sudo -u "${USER_NAME}" -H gpg2 --batch --yes --passphrase '' --quick-gen-key "$REPO_NAME" default default "${expiry}";
@@ -57,7 +65,7 @@ chmod 0600 "${GPG_KEY}"
 
 # Export a copy of the key to key.asc
 if [ ! -f /app/repo/repository-key.asc ]; then
-  log info "Exporting GPG public key"
+  echo "INFO: Exporting GPG public key"
   sudo -u "${USER_NAME}" -H bash -c 'gpg --export -a > /app/repo/repository-key.asc'
 fi
 
@@ -87,3 +95,5 @@ else
     done >> "${MINI_DINSTALL_CONFIG}"
   fi
 fi
+
+exec sudo -u "${USER_NAME}" -H mini-dinstall --config "${MINI_DINSTALL_CONFIG}" --foreground

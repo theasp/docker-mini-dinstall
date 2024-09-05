@@ -1,7 +1,0 @@
-[program:mini-dinstall]
-priority=50
-user=${USER}
-directory=/app/repo
-command=mini-dinstall --config "${MINI_DINSTALL_CONFIG}" --foreground
-redirect_stderr=true
-autorestart=true
