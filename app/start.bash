@@ -28,6 +28,10 @@ for dir in /app/etc /app/repo /app/repo/mini-dinstall /app/repo/mini-dinstall/in
   chown "${USER_UID}:${USER_GID}" "${dir}" || true
 done
 
+chmod 0755 /app/repo
+chmod 0755 /app/repo/mini-dinstall
+chmod 0775 /app/repo/mini-dinstall/incoming
+
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=yes;;
   *)        VERIFY_SIGS=no;;
