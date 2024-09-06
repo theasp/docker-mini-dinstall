@@ -23,6 +23,7 @@ export REPO_DIR="${REPO_DIR:-/app/repo}"
 export REPO_SECTIONS=${REPO_SECTIONS:-unstable}
 export PIDFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.lock
 export MINI_DINSTALL_CONFIG=/tmp/mini-dinstall.conf
+export MINI_DINSTALL_LOGFILE=${REPO_DIR}/mini-dinstall/mini-dinstall.log
 
 if [[ $DEBUG = true ]]; then
   set -x
@@ -31,7 +32,7 @@ fi
 getent group "${USER_NAME}" > /dev/null 2>&1 || addgroup --gid="${USER_GID}" "${USER_NAME}"
 getent passwd "${USER_NAME}" > /dev/null 2>&1 || adduser --disabled-password --home="${USER_HOME}" --shell="${USER_SHELL}" --gecos="${USER_GECOS}" --uid="${USER_UID}" --gid="${USER_GID}" "${USER_NAME}"
 
-for dir in /app/etc ${REPO_DIR} ${REPO_DIR}/mini-dinstall ${REPO_DIR}/mini-dinstall/incoming; do
+for dir in /app/etc "${REPO_DIR}" "${REPO_DIR}/mini-dinstall" "${REPO_DIR}/mini-dinstall/incoming"; do
   mkdir -p "${dir}"
   chown "${USER_UID}:${USER_GID}" "${dir}" || true
 done
