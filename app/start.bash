@@ -9,6 +9,9 @@ export USER_HOME=${USER_HOME:-/home/${USER_NAME}}
 export USER_SHELL="/bin/bash"
 export USER_GECOS=${USER_GECOS:-APT}
 
+export SMTP_RELAY=${SMTP_RELAY:-}
+export SMTP_HOSTNAME=${SMTP_HOSTNAME:-$(hostname -f)}
+
 export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
 export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
 export ARCHIVE_STYLE="${ARCHIVE_STYLE:-flat}"
@@ -101,5 +104,15 @@ else
     done >> "${MINI_DINSTALL_CONFIG}"
   fi
 fi
+
+if [[ $SMTP_RELAY ]]; then
+  cat > /etc/ssmtp/ssmtp.conf <<EOF
+root=postmaster
+mailhub=${SMTP_RELAY}"
+hostname="${SMTP_HOSTNAME}"
+FromLineOverride=NO
+EOF
+fi
+
 
 exec sudo -u "${USER_NAME}" -H mini-dinstall --config "${MINI_DINSTALL_CONFIG}" --foreground
