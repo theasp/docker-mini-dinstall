@@ -2,12 +2,12 @@
 
 set -e
 
-export USER_NAME="user"
-export USER_UID="1000"
-export USER_GID="1000"
-export USER_HOME="/home/user"
+export USER_NAME=${USER_NAME:-apt}
+export USER_UID=${USER_UID:-1000}
+export USER_GID=${USER_GID:-1000}
+export USER_HOME=${USER_HOME:-/home/${USER_NAME}}
 export USER_SHELL="/bin/bash"
-export USER_GECOS="Unknown User"
+export USER_GECOS=${USER_GECOS:-APT}
 
 export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
 export EXTRA_KEYRING="${EXTRA_KEYRING:-/app/etc/extra-keyring.gpg}"
