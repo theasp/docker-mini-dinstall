@@ -105,14 +105,4 @@ else
   fi
 fi
 
-if [[ $SMTP_RELAY ]]; then
-  cat > /etc/ssmtp/ssmtp.conf <<EOF
-root=postmaster
-mailhub=${SMTP_RELAY}
-hostname=${SMTP_HOSTNAME}
-FromLineOverride=NO
-EOF
-fi
-
-
 exec sudo -u "${USER_NAME}" -H mini-dinstall --config "${MINI_DINSTALL_CONFIG}" --foreground

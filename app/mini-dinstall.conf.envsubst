@@ -9,6 +9,7 @@ poll_time = 10
 mail_log_level = ERROR
 mail_to = "${EMAIL}"
 mail_on_success = yes
+mail_server = "${SMTP_RELAY:-localhost}"
 generate_release = yes
 release_description = "${REPO_NAME}"
 release_signscript = /app/sign-release.sh
