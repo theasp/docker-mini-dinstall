@@ -108,8 +108,8 @@ fi
 if [[ $SMTP_RELAY ]]; then
   cat > /etc/ssmtp/ssmtp.conf <<EOF
 root=postmaster
-mailhub=${SMTP_RELAY}"
-hostname="${SMTP_HOSTNAME}"
+mailhub=${SMTP_RELAY}
+hostname=${SMTP_HOSTNAME}
 FromLineOverride=NO
 EOF
 fi
