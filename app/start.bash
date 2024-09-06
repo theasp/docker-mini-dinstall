@@ -9,7 +9,7 @@ export USER_HOME=${USER_HOME:-/home/${USER_NAME}}
 export USER_SHELL="/bin/bash"
 export USER_GECOS=${USER_GECOS:-APT}
 
-export SMTP_RELAY=${SMTP_RELAY:-}
+export SMTP_RELAY=${SMTP_RELAY:-localhost}
 export SMTP_HOSTNAME=${SMTP_HOSTNAME:-$(hostname -f)}
 
 export ARCHITECTURES="${ARCHITECTURES:-all, i386, amd64}"
