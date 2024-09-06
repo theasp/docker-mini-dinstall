@@ -75,7 +75,7 @@ fi
 # Export a copy of the key to key.asc
 if [[ ! -f "${REPO_DIR}/repository-key.asc" ]]; then
   echo "INFO: Exporting GPG public key"
-  sudo -u "${USER_NAME}" -H bash -c 'gpg --export -a > "${REPO_DIR}"/repository-key.asc'
+  sudo -u "${USER_NAME}" -H bash -c "gpg --export -a > '${REPO_DIR}'/repository-key.asc"
 fi
 
 sudo -u "${USER_NAME}" rm -f "${PIDFILE}"
