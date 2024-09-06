@@ -31,14 +31,14 @@ fi
 getent group "${USER_NAME}" > /dev/null 2>&1 || addgroup --gid="${USER_GID}" "${USER_NAME}"
 getent passwd "${USER_NAME}" > /dev/null 2>&1 || adduser --disabled-password --home="${USER_HOME}" --shell="${USER_SHELL}" --gecos="${USER_GECOS}" --uid="${USER_UID}" --gid="${USER_GID}" "${USER_NAME}"
 
-for dir in /app/etc /app/repo /app/repo/mini-dinstall /app/repo/mini-dinstall/incoming; do
+for dir in /app/etc ${REPO_DIR} ${REPO_DIR}/mini-dinstall ${REPO_DIR}/mini-dinstall/incoming; do
   mkdir -p "${dir}"
   chown "${USER_UID}:${USER_GID}" "${dir}" || true
 done
 
-chmod 0755 /app/repo
-chmod 0755 /app/repo/mini-dinstall
-chmod 0775 /app/repo/mini-dinstall/incoming
+chmod 0755 "${REPO_DIR}"
+chmod 0755 "${REPO_DIR}/mini-dinstall"
+chmod 0775 "${REPO_DIR}/mini-dinstall/incoming"
 
 case ${VERIFY_SIGS:-true} in
   true|yes) VERIFY_SIGS=yes;;
@@ -73,9 +73,9 @@ else
 fi
 
 # Export a copy of the key to key.asc
-if [ ! -f /app/repo/repository-key.asc ]; then
+if [[ ! -f "${REPO_DIR}/repository-key.asc" ]]; then
   echo "INFO: Exporting GPG public key"
-  sudo -u "${USER_NAME}" -H bash -c 'gpg --export -a > /app/repo/repository-key.asc'
+  sudo -u "${USER_NAME}" -H bash -c 'gpg --export -a > "${REPO_DIR}"/repository-key.asc'
 fi
 
 sudo -u "${USER_NAME}" rm -f "${PIDFILE}"
@@ -94,7 +94,7 @@ else
       echo "[${name}]"
     done >> "${MINI_DINSTALL_CONFIG}"
   else
-    for dir in /app/repo/*; do
+    for dir in "${REPO_DIR}"/*; do
       name=$(basename "${dir}")
 
       if [[ -d $dir ]] && [[ $name != mini-dinstall ]]; then
